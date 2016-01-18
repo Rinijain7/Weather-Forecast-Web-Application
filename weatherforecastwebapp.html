@@ -1,0 +1,1966 @@
+<html>
+
+<head>
+    <title>Forecast</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.1/moment-timezone-with-data-2010-2020.js"></script> 
+
+    <style type="text/css">
+    html {
+        height: 100%;
+        width: 100%;
+    }
+    
+    body {
+        background-image: url("http://cs-server.usc.edu:45678/hw/hw8/images/bg.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        background-attachment: fixed;
+    }
+    
+    .container_shadow {
+        background-color: rgba(0, 0, 0, 0.27);
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-top: 20px;
+        padding-bottom: 0px
+    }
+    
+    .radio label:first-child {
+        padding-left: 0;
+    }
+    
+    .button-style {
+        padding: 4px 6px;
+    }
+    
+    .glyphicon-fix {
+        margin-right: 5px;
+    
+    }
+    
+    .row-fix {
+        margin-left: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 0;
+    }
+    
+    .column-fix {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    
+    .button-section {
+        margin-top: 25px;
+    }
+    
+    .wrapper {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    hr {
+        width: 84%;
+    }
+    
+    .forecast-image-container {
+        padding-right: 15px;
+    }
+    
+    .forecast-image-container span {
+        color: rgba(255, 255, 255, 1);
+        font-weight: 500;
+    }
+    
+    .forecast-image-container img {
+        width: 100px;
+        vertical-align: middle;
+    }
+    
+    @media (max-width: 1024px) {
+        .radio {
+            margin-top: 0;
+        }
+        .column-fix {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        hr {
+            width: 100%;
+        }
+        .forecast-image-container {
+            margin-top: 20px;
+        }
+    }
+    .padding
+    {
+        padding-right: 8px;
+        padding-left: 0px;
+    }
+.modal-body col-md-4
+{
+    font-size: 50%;
+    font-weight: bold;
+}
+    .Cell{
+                display: inline-block;
+                width: 19%;
+                text-align: center;
+                height: 42px;
+            }
+
+    .FirstRow
+            {
+                color: grey;
+                padding: 0px;
+                border-bottom: 1px lightgrey solid;
+                border-top: 1px lightgrey solid;
+                background: white;
+                    
+
+            }
+            .header24{
+                background: white;
+                color:black; 
+                float: left; 
+                width:25%;
+
+            }
+
+            .data24{
+                color:black;
+                float: left; 
+                width:25%;
+            }
+
+            .dayButton{
+                width: 75px;
+                font-size: 13px;
+                padding: 0px;
+                margin-left: 10px;
+                border-radius: 5px;
+                height: 350px !important;
+
+            }
+
+            #dayContainer{
+                width: 620px;
+                height: 350px;
+            }
+
+            .colored{
+                background: black;
+            }
+
+            @media (max-width: 992px) {
+                #dayContainer{
+                    width: 100%;
+                }
+                .dayButton{
+                    width: 100%;
+                    margin-left: 0;
+                    margin-bottom: 10px;
+                    border-radius: 25px;
+                }
+
+            #dayContainer{
+                background: 
+            }
+            .colored{
+                background: none;
+            }
+
+            }
+            .forecast-image-container {
+    padding-right: 15px;
+}
+
+.forecast-image-container span {
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+}
+
+.forecast-image-container img {
+    width: 100px;
+    vertical-align: middle;
+}
+
+.navigation-tabs>li>a {
+    background-color: #ffffff;
+}
+
+.navigation-tabs>li.active>a,
+.navigation-tabs>li.active>a:focus,
+.navigation-tabs>li.active>a:hover {
+    color: rgba(255, 255, 255, 1);
+    background-color: #337ab7;
+}
+
+.forecast-info {
+    background-color: #f57c7d;
+    padding: 10px;
+}
+
+.table-striped>tbody>tr:nth-of-type(even) {
+    background-color: #f4dddf;
+}
+
+.fb-icon-container {
+    margin-top: -30px;
+}
+
+.fb-icon-container img {
+    width: 30px;
+}
+
+#errorAddress, #errorCity, #errorState{
+    color: red;
+}
+@media (max-width: 1024px) {
+    .radio {
+        margin-top: 0;
+    }
+    hr {
+        width: 100%;
+    }
+    .forecast-image-container {
+        margin-top: 20px;
+    }
+}
+
+
+            .fb-icon-container {
+                margin-top: -20px;
+                z-index: 11;
+            }
+
+            .forecast-info {
+                background-color: #f57c7d;
+                padding: 10px;
+            }
+@media (min-width: 1024px) {
+
+.container {
+    width: 1300px;
+}
+}
+
+td.detail{
+    padding-left: 25px !important;
+}
+
+.glyphicon-plus{
+        color: #2e79b9;
+
+}
+    </style>
+    <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
+    
+    <script>
+    var FBicon;
+    var FBcity,FBstate, FBtemp, FBsummary;
+       /* alert("inside");
+        $(document).ready(function() {
+            alert("function loaded");
+            var form=$('#form');
+    $('#form').validate({
+        alert("validateit");
+        rules: {
+            address:{required: true},
+            city:{required:true},
+            state:{selectcheck:true}
+            
+        },
+        messages: {
+            address:"Select Address",
+            city:"Select city"
+        },
+        errorPlacement: function(error, element)
+            {
+                if(element.attr("name") == "address")
+                error.insertAfter("#error1");
+                if(element.attr("name") == "city")
+                error.insertAfter("#error2");
+                if(element.attr("name") == "state")
+                error.insertAfter("#error3");
+                error.css('color','red');
+            }
+               
+       
+   });
+    jQuery.validator.addMethod('selectcheck',function(value){
+        return (value!='SelectName');
+    },"Select a state name");
+    });*/
+
+
+    $(document).ready(function() {
+
+
+        var address=document.getElementById("address").value;
+        var city=document.getElementById("city").value;
+        var state=document.getElementById("state").value;
+        var degree=document.getElementById("degree").value;
+        FBstate = state;
+        FBcity = city;
+       
+        
+        $("#form").validate({
+    
+                rules: {
+                    address: "required",
+                    city: "required",
+                    state: "required"
+                },
+                errorPlacement: function(error, element) {
+                            //Custom position: first name
+                    if (element.attr("name") == "address" ) {
+                        $("#errorAddress").text(error.text());
+                    }
+                    //Custom position: second name
+                    else if (element.attr("name") == "city" ) {
+                        $("#errorCity").text(error.text());
+                    }
+                    else if (element.attr("name") == "state" ) {
+                        $("#errorState").text(error.text());
+                    }
+                },
+                // Specify the validation error messages
+                messages: {
+                    address: "Please enter the street address",
+                    city: "Please enter the city",
+                    state: "Please select the state"
+                },
+
+                submitHandler: function(form) {
+                    $('#errorAddress').text('');
+                    $('#errorCity').text('');
+                    $('#errorState').text('');
+                    $.ajax({
+                        type: 'GET',
+                        url: 'index.php',
+                       // data: $('form').serialize(),
+                       data: {address:document.getElementById("address").value,
+                            city:document.getElementById("city").value,
+                            state:document.getElementById("state").value,
+                            degree:document.getElementById("degree").value
+                        }, 
+                       datatype: 'json',
+                        success: function(response) {
+                            //console.log(response);
+                            //alert('form was submitted');
+                          
+                            myfunction(response);
+                        }
+                    });
+                            
+                        },
+                        success: function (error) {
+                            error.remove();
+                        }
+                        
+                    }); 
+        /*$('form').on('submit', function(e) {
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'GET',
+                url: 'index.php',
+               // data: $('form').serialize(),
+               data: {address:address,city:city,state:state,degree:degree}, 
+               datatype: 'json',
+                success: function(response) {
+                    //console.log(response);
+                    //alert('form was submitted');
+                  
+                    myfunction(response);
+                }
+            });
+
+        });*/
+
+    });
+    
+    var count =0;
+    function myfunction(jsondata) {
+        var unit=document.querySelector('input[name="degree"]:checked').value;
+        var city = document.getElementById("city").value;
+        var state = document.getElementById("state").value;        
+        document.getElementById('tabstart').style.display = "block";
+        var Imageicon="";
+        var Imageurl="http://cs-server.usc.edu:45678/hw/hw8/images/";
+        var precipDisplay="";
+        var rainDisplay="";
+        var windDisplay="";
+        var dewDisplay="";
+        var humidityDisplay="";
+        var visibilityDisplay="";
+        var sunriseDisplay="";
+        var sunsetDisplay="";
+        
+        $('#map').html('');
+
+        var data = JSON.parse(jsondata);
+        var icon=data.currently.icon;
+        if(icon=="clear-day")
+            {
+            Imageicon = "clear.png" ;
+            Imageurl +=Imageicon;
+            }
+        if(icon=="clear-night")
+        {
+        Imageicon = "clear_night.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="rain")
+        {
+        Imageicon = "rain.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="snow")
+        {
+        Imageicon = "snow.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="sleet")
+        {
+        Imageicon = "sleet.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="wind")
+        {
+        Imageicon = "wind.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="fog")
+        {
+        Imageicon = "fog.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="cloudy")
+        {
+        Imageicon = "cloudy.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="partly-cloudy-day")
+        {
+        Imageicon = "cloud_day.png" ;
+        Imageurl +=Imageicon;
+        }
+        if(icon=="partly-cloudy-night")
+        {
+        Imageicon = "cloud_night.png" ;
+        Imageurl +=Imageicon;
+        }
+         if(unit=="us")
+            {
+            tempunit="&deg F";
+            windunit=" mph";
+            dewunit="&deg F";
+            visibilityunit=" mi";
+            pressureunit="mb";
+            tu = 'F';
+            }
+        else if(unit=="si")
+            {
+            tempunit="&deg C";
+            windunit="m/s";
+            dewunit="&deg C";
+            visibilityunit="km";
+            pressureunit="hpa";
+            tu = 'C';
+            }
+
+            $('#temp').html('(' + tempunit + ')');
+        FBicon = Imageurl;
+        var precipIntensity = data.currently.precipIntensity;
+        
+        if(unit=="si")
+        {
+            precipIntensity = precipIntensity/25.4;
+        }
+        
+        if(precipIntensity>=0 && precipIntensity<0.002)
+            {
+            precipDisplay="None";
+            }
+        if(precipIntensity>=0.002 && precipIntensity<0.017)
+        {
+        precipDisplay="Very Light";
+        }
+        if(precipIntensity>=0.017 && precipIntensity<0.1)
+        {
+        precipDisplay="Light";
+        }
+        if(precipIntensity>=0.1 && precipIntensity<0.4)
+        {
+        precipDisplay="Moderate";
+        }
+        if(precipIntensity>=0.4)
+        {
+        precipDisplay="Heavy";
+        }
+        var lat=data.latitude;
+        var lng=data.longitude;
+        var precipProbability = data.currently.precipProbability;
+        var windSpeed = data.currently.windSpeed;
+        var dewPoint = data.currently.dewPoint;
+        var humidity = data.currently.humidity;
+        var visibility = data.currently.visibility;
+        var summary  = data.currently.summary;
+        var currenttemp = data.currently.temperature;
+        var displaycurrenttemp = currenttemp.toFixed(0);
+        var currentmintempdata = (data.daily.data[0].temperatureMin).toFixed(0);
+        var currentmaxtempdata = (data.daily.data[0].temperatureMax).toFixed(0);
+        var sunrise = data.daily.data[0].sunriseTime;
+        var sunset = data.daily.data[0].sunsetTime;
+        var timezone = data.timezone;
+        var displaysummary = summary + " in "+city+", "+state;
+        document.getElementById("summary").innerHTML=displaysummary;
+        document.getElementById("currenttemp").innerHTML=displaycurrenttemp +'<sup>' + tempunit + '</sup>';
+        document.getElementById("currentmintemp").innerHTML=currentmintempdata+"&deg";
+        document.getElementById("currentmaxtemp").innerHTML=currentmaxtempdata+"&deg";
+        var sunrisetime=moment.unix(sunrise).tz(data.timezone).format('hh:mm A');
+        var sunsettime=moment.unix(sunset).tz(data.timezone).format('hh:mm A');
+        FBsummary = summary;
+        FBtemp = displaycurrenttemp + '&#176;' + tu;
+        rainDisplay = (precipProbability*100)+"%";
+        windDisplay = windSpeed.toFixed(2)+windunit;
+        dewDisplay = dewPoint.toFixed(2)+dewunit;
+        humidityDisplay=(humidity*100).toFixed(0) +"%";
+        visibilityDisplay = visibility.toFixed(2) + visibilityunit;
+        
+        document.getElementById('image').src = Imageurl;
+        document.getElementById('image').height = "120";
+        document.getElementById('image').width = "120";
+        document.getElementById('image').alt = Imageicon;
+        document.getElementById('image').title = Imageicon;
+        document.getElementById('sunrise_current').innerHTML = sunrisetime;
+        document.getElementById('sunset_current').innerHTML = sunsettime;
+        document.getElementById('wind_current').innerHTML = windDisplay;
+        document.getElementById('dew_current').innerHTML = dewDisplay;
+        document.getElementById('humidity_current').innerHTML = humidityDisplay;
+        document.getElementById('visibility_current').innerHTML = visibilityDisplay;
+        document.getElementById('precip_current').innerHTML = precipDisplay;
+        document.getElementById('rain_current').innerHTML = rainDisplay;
+        
+
+        var tempdisplay=[];
+        for(var i=1;i<=24;i++)
+        {
+            var Imageurl="http://cs-server.usc.edu:45678/hw/hw8/images/";
+            $('#time_'+i).text(moment.unix(data.hourly.data[i].time).tz(data.timezone).format('hh:mm A')); 
+            
+            var icon = data.hourly.data[i].icon;
+            if(icon=="clear-day")
+                {
+                Imageicon = "clear.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="clear-night")
+                {
+                Imageicon = "clear_night.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="rain")
+                {
+                Imageicon = "rain.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="snow")
+                {
+                Imageicon = "snow.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="sleet")
+                {
+                Imageicon = "sleet.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="wind")
+                {
+                Imageicon = "wind.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="fog")
+                {
+                Imageicon = "fog.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="cloudy")
+                {
+                Imageicon = "cloudy.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="partly-cloudy-day")
+                {
+                Imageicon = "cloud_day.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="partly-cloudy-night")
+                {
+                Imageicon = "cloud_night.png" ;
+                Imageurl +=Imageicon;
+                }
+
+                $('#summary_'+i).attr('src', Imageurl);
+                $('#cloud_'+i).text( data.hourly.data[i].cloudCover.toFixed(2) * 100 + "%");
+                $('#temp_'+i).text(data.hourly.data[i].temperature);
+                $('#vieww_'+i).text(data.hourly.data[i].windSpeed + windunit);
+                var hum24 = data.hourly.data[i].humidity;
+                $('#viewh_'+i).text( hum24.toFixed(2) * 100 + "%");
+                $('#viewp_'+i).text(data.hourly.data[i].pressure + pressureunit);
+                $('#viewv_'+i).text(data.hourly.data[i].visibility + visibilityunit);
+
+
+
+        }
+        
+        for(var i=1;i<8;i++)
+        {
+            $('#day_'+i).text(moment.unix(data.daily.data[i].time).tz(data.timezone).format('ddd'));
+            $('#date_'+i).text(moment.unix(data.daily.data[i].time).tz(data.timezone).format('MMM D'));
+            $('#newdate_'+i).text(moment.unix(data.daily.data[i].time).tz(data.timezone).format('MMM D'));
+            $('#mint_'+i).html(Math.round(data.daily.data[i].temperatureMin) + tempunit);
+            $('#maxt_'+i).html(Math.round(data.daily.data[i].temperatureMax) + tempunit);
+            var Imageurl="http://cs-server.usc.edu:45678/hw/hw8/images/";
+            
+            var icon = data.daily.data[i].icon;
+            if(icon=="clear-day")
+                {
+                Imageicon = "clear.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="clear-night")
+                {
+                Imageicon = "clear_night.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="rain")
+                {
+                Imageicon = "rain.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="snow")
+                {
+                Imageicon = "snow.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="sleet")
+                {
+                Imageicon = "sleet.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="wind")
+                {
+                Imageicon = "wind.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="fog")
+                {
+                Imageicon = "fog.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="cloudy")
+                {
+                Imageicon = "cloudy.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="partly-cloudy-day")
+                {
+                Imageicon = "cloud_day.png" ;
+                Imageurl +=Imageicon;
+                }
+                if(icon=="partly-cloudy-night")
+                {
+                Imageicon = "cloud_night.png" ;
+                Imageurl +=Imageicon;
+                }
+                $('#img_'+i).attr('src',Imageurl);
+
+                $('#sunr_'+i).text(moment.unix(data.daily.data[i].sunriseTime).tz(data.timezone).format('hh:mm A'));
+                $('#suns_'+i).text(moment.unix(data.daily.data[i].sunsetTime).tz(data.timezone).format('hh:mm A'));
+                 $('#icon_'+ i).attr('src', Imageurl);
+                  $('#city_modal_'+i).text(city);
+                 $('#sum_'+i).html(moment.unix(data.daily.data[i].time).tz(data.timezone).format('dddddd') + ': <span style="color: orange">' +data.daily.data[i].summary + "</span>");
+
+                 $('#date_'+i).text(moment.unix(data.daily.data[i].time).tz(data.timezone).format('MMM DD'));
+                 $('#wspd_'+i).text(data.daily.data[i].windSpeed + windunit);
+                 $('#press_'+i).text(data.daily.data[i].pressure + pressureunit);
+                 $('#vis_'+i).text(data.daily.data[i].visibility + visibilityunit);
+                 $('#hum_'+i).text(data.daily.data[i].humidity * 100 + "%");   
+
+        }
+       
+
+        var map = new OpenLayers.Map("map");
+                    // Create OSM overlays
+                    var mapnik = new OpenLayers.Layer.OSM();
+
+                    var layer_cloud = new OpenLayers.Layer.XYZ(
+                    "clouds",
+                    "http://${s}.tile.openweathermap.org/map/clouds/${z}/${x}/${y}.png",
+                    {
+                        isBaseLayer: false,
+                        opacity: 0.7,
+                        sphericalMercator: true
+                    }
+                );
+
+                var layer_precipitation = new OpenLayers.Layer.XYZ(
+                    "precipitation",
+                    "http://${s}.tile.openweathermap.org/map/precipitation/${z}/${x}/${y}.png",
+                    {
+                        isBaseLayer: false,
+                        opacity: 0.7,
+                        sphericalMercator: true
+                    }
+                );
+                map.addLayers([mapnik, layer_precipitation, layer_cloud]);
+                map.addControl(new OpenLayers.Control.LayerSwitcher());     
+    
+                var lonlat = new OpenLayers.LonLat(lng, lat).transform(
+                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                    map.getProjectionObject() // to Spherical Mercator Projection
+                  );
+                map.setCenter( lonlat, 7 );     
+
+                var markers = new OpenLayers.Layer.Markers( "Markers" );
+                map.addLayer(markers);
+                markers.addMarker(new OpenLayers.Marker(lonlat));
+         }
+        
+        function clearform() {
+  //document.forms["form"]["address"].value="";
+  //document.forms["form"]["city"].value="";
+  //document.forms["form"]["state"].value="SelectName";
+  //document.forms["form"]["degree"].value="us";
+
+  $('#errorAddress').text('');
+                    $('#errorCity').text('');
+                    $('#errorState').text('');
+                                        $("#form").validate().resetForm();
+
+    document.getElementById("tabstart").innerHTML="";
+    
+    }
+        
+
+    </script>
+    </head>
+
+<body>
+    <h2 class="text-center"><b>Forecast Search</b></h2>
+    <br>
+    <div class="wrapper">
+        <div class="container container_shadow">
+            <form method="get" accept-charset="utf-8" id="form" novalidate="novalidate" method="post" action="" name="form" role="form" class="row row-fix">
+                <div class="col-md-3 padding">
+                    <label for="address" style="color:white;">Street Address:</label><span style="color:red;">*</span>
+                    <br>                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Street Address" style="margin-bottom: 10px;">
+                    <span id="errorAddress" ></span>
+
+                </div>
+                <div class="col-md-2 padding">
+                    <label for="city" style="color:white; ">City:</label><span style="color:red;">*</span>
+                    <br>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter the City Name" style='margin-bottom: -10px;'>
+                    <br><span id="errorCity" ></span>
+                </div>
+                <div class="col-md-2 padding">
+                    <label for="state" style="color:white; ">State:</label><span style="color:red;">*</span>
+                    <br>
+                    <select name="state" id="state" class="form-control" style='margin-bottom: -10px;'>
+                        <option value="">Select Your State ...</option>
+ <option value="AL">Alabama</option>
+      <option value="AK">Alaska</option>
+      <option value="AR">Arizona</option>
+      <option value="AR">Arkansas</option>
+      <option value="CA" >California</option>
+      <option value="CO" >Colorado</option>
+      <option value="CT" >Connecticut</option>
+      <option value="DE" >Delaware</option>
+      <option value="DC" >District Of Columbia</option>
+      <option value="FL" >Florida</option>
+      <option value="GA" >Georgia</option>
+      <option value="HI" >Hawaii</option>
+      <option value="ID" >Idaho</option>
+      <option value="IL">Illinois</option>
+      <option value="IN" >Indiana</option>
+      <option value="IA">Iowa</option>
+      <option value="KS">Kansas</option>
+      <option value="KY">Kentucky</option>
+      <option value="LA">Louisiana</option>
+      <option value="ME">Maine</option>
+      <option value="MD">Maryland</option>
+      <option value="MA">Massachusetts</option>
+      <option value="MI" >Michigan</option>
+      <option value="MN" >Minnesota</option>
+      <option value="MS" >Mississippi</option>
+      <option value="MO" >Missouri</option>
+      <option value="NE" >Nebraska</option>
+      <option value="NV" >Nevada</option>
+      <option value="NH" >New Hampshire</option>
+      <option value="NJ" >New Jersey</option>
+      <option value="NM" >New Mexico</option>
+      <option value="NY" >New York</option>
+      <option value="NC" >North Carolina</option>
+      <option value="ND" >North Dakota</option>
+      <option value="OH" >Ohio</option>
+      <option value="OK" >Oklahoma</option>
+      <option value="OR" >Oregon</option>
+      <option value="PA" >Pennsylvania</option>
+      <option value="RI" >Rhode Island</option>
+      <option value="SC" >South Carolina</option>
+      <option value="SD" >South Dakota</option>
+      <option value="TN" >Tennessee</option>
+      <option value="TX" >Texas</option>
+      <option value="UT" >Utah</option>
+      <option value="VT" >Vermont</option>
+      <option value="VA" >Virginia</option>
+      <option value="WA" >Washington</option>
+      <option value="WV" >West Virginia</option>
+      <option value="WI" >Wisconsin</option>
+      <option value="WY" >Wyoming</option>
+                    </select>
+                    <br>
+                    <span id="errorState" ></span>
+                </div>
+                <div class="radio col-md-3 column-fix">
+                    <label style="color:white;"><strong>Degree:</strong></label><span style="color:red;">*</span>
+                    <br>
+                    <label class="radio-inline">
+                        <input type="radio" name="degree" id="degree" value="us" checked="checked">Fahrenheit</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="degree" id="degree" value="si">Celsius</label>
+                </div>
+                <div class="button-section col-md-2 text-right" style="padding-left: 0;">
+                    <button type="submit" class="btn btn-primary btn-md button-style"><span class="glyphicon glyphicon-search glyphicon-fix" aria-hidden="true"></span>Search</button>
+                    <button type="reset" class="btn btn-default btn-md button-style" onclick="clearform();"><span class="glyphicon glyphicon-refresh glyphicon-fix" aria-hidden="true"></span>Clear</button>
+                </div>
+            </form>
+            <div class="forecast-image-container row row-fix text-right">
+                <span>Powered by: </span><img src="http://cs-server.usc.edu:45678/hw/hw8/images/forecast_logo.png" alt="Forecast Logo">
+            </div>
+        </div>
+        <hr>
+    </div>
+    
+    
+    
+       <div class="wrapper" id="tabstart" style="display: none;">
+        <div class="container padding-fix ">
+            <div>
+                <ul class="nav nav-tabs navigation-tabs">
+                    <li role="presentation" class="active"><a data-toggle="tab" href="#RightNow">Right Now</a></li>
+                    <li role="presentation"><a data-toggle="tab" href="#next24hours">Next 24Hours</a></li>
+                    <li role="presentation"><a data-toggle="tab" href="#next7days">Next 7Days</a></li>
+                </ul>
+            </div>
+           <div class="tab-content">
+            <div id="RightNow" class="tab-pane fade in active">
+                <div class="col-md-6">
+                    <div class="row forecast-info">
+                        <div class="col-md-6 text-center">
+                            <!-- <p>Hello</p> -->
+                             <img src="" alt="" id="image"> 
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div style="color: rgba(255, 255, 255, 1); font-weight: 900;" id="summary">Mostly Cloudy in Los Angeles, CA</div>
+                            <div style="font-size: 60px;" id="currenttemp">71<span>F</span></div>
+                            <div <font style="color: #b14e92;">L:<span id="currentmintemp"></span></font> |<font style="color: #907d4a;">H:<span id="currentmaxtemp">79</span></font></div>
+                        </div>
+                        <div class="fb-icon-container pull-right">
+                            <img id='fb' src="http://cs-server.usc.edu:45678/hw/hw8/images/fb_icon.png" alt="Facebook Icon" onclick='test()' >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-striped">
+                            <tr>
+                                <td class='detail'>Precipitation</td>
+                                <td id="precip_current"></td>
+                            </tr>
+                            <tr>
+                                <td class='detail'>Chance of Rain</td>
+                                <td id="rain_current"></td>
+                            </tr>
+                            <tr>
+                                <td class='detail'>Wind Speed</td>
+                                <td id="wind_current"></td>
+                            </tr>
+                            <tr>
+                                <td class='detail'> Dew Point</td>
+                                <td id="dew_current"></td>
+                            </tr>
+                            <tr>
+                                <td class='detail'>Humidity</td>
+                                <td id="humidity_current"></td>
+                            </tr>
+                            <tr>
+                                <td class='detail'>Visibility</td>
+                                <td id="visibility_current"></td>
+                            </tr>
+                            <tr>
+                                <td class='detail'>Sunrise</td>
+                                <td id="sunrise_current"></td>
+                            </tr>
+                            <tr>
+                                <td class='detail'>Sunset</td>
+                                <td id="sunset_current"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6" style='padding-left:0px;'><div id='map' style='width: 100%; height: 455px;'>
+                                
+                            </div></div>
+            </div>
+            
+
+            
+            
+                      <div class="tab-pane" id="next24hours"> 
+
+<div class="Header">
+    <div style='background-color:#2e79b9; height:50px;'>
+                  <div class='Cell'>Time</div>
+                    <div class='Cell'>Summary</div>
+                    <div class='Cell'>Cloud Cover</div>
+                    <div class='Cell'>Temp <span id='temp'></span></div>
+                    <div class='Cell'>View Details</div>
+</div>
+                            <div>  
+                    <div class="FirstRow">
+                        <div class='Cell' id='time_1'>10:00PM</div>
+                        <div class='Cell'><img id='summary_1' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:40px; height:40px;"></div>
+                        <div class='Cell' id='cloud_1'>0%</div>
+                        <div class='Cell' id='temp_1'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo"></div></div><div>
+                        <div id="demo" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;border-bottom: 15px grey;">
+                            <div style='height: 20px;'></div>
+                            <div style="width: 90%; margin:0 auto; background: white;">
+                                
+                                <div class='header24'>Wind</div>
+                                <div class='header24'>Humidity</div>
+                                <div class='header24'>Visibility</div>
+                                <div class='header24'>Pressure</div>
+                            </div>
+                            <div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                                
+                                <div class='data24' id="vieww_1">Wind</div>
+                                <div class='data24' id="viewh_1">Humidity</div>
+                                <div  class='data24'  id="viewv_1">Visibility</div>
+                                <div class='data24' id="viewp_1">Pressure</div>
+                            </div>
+                            <div style='height: 20px;'><br></div>
+                        
+                    </div>
+</span></div></div>
+<div><div class="FirstRow">
+                    <div class='Cell' id='time_2'>11:00PM</div>
+                    <div class='Cell'><img id='summary_2' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_2'>0%</div>
+                    <div class='Cell' id='temp_2'>74.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo1"></div></div><div>
+                      <div id="demo1" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;border-bottom: 15px grey;">
+    <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+                             <div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                                <div class='data24' id="vieww_2">Winds</div>
+                                <div class='data24' id="viewh_2">Humiditys</div>
+                                <div class='data24' id="viewv_2">Visibility</div>
+                                <div class='data24' id="viewp_2">Pressure</div>
+                             </div>
+                             <div style='height: 20px;'><br></div>
+</div>
+</span></div></div>
+<div><div class="FirstRow">
+                    <div class='Cell' id='time_3'>12:00PM</div>
+                    <div class='Cell' ><img id='summary_3' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_3'>100%</div>
+                    <div class='Cell' id='temp_3'>70.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo2"></div></div><div>
+  <div id="demo2" class="col-md-12 view collapse text-center" style="height: 35px; background:lightgray;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+                    <div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_3">Wind</div>
+                    <div class='data24' id="viewh_3">Humidity</div>
+                    <div class='data24' id="viewv_3">Visibility</div>
+                    <div class='data24' id="viewp_3">Pressure</div>
+                    </div>
+                             <div style='height: 20px;'><br></div>
+</div></span></div></div>
+                    
+                
+                <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_4'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_4' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_4'>0%</div>
+                    <div class='Cell' id='temp_4'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo3"></div></div><div>
+  <div id="demo3" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+                <div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_4">Wind</div>
+                    <div class='data24' id="viewh_4">Humidity</div>
+                    <div class='data24' id="viewv_4">Visibility</div>
+                    <div class='data24' id="viewp_4">Pressure</div>
+</div>
+                    <div style='height: 20px;'><br></div>
+</div>
+</span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_5'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_5' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_5'>0%</div>
+                    <div class='Cell' id='temp_5'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo4"></div></div><div>
+  <div id="demo4" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+    <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_5">Wind</div>
+                    <div class='data24' id="viewh_5">Humidity</div>
+                    <div class='data24' id="viewv_5">Visibility</div>
+                    <div class='data24' id="viewp_5">Pressure</div>
+</div>
+                         <div style='height: 20px;'><br></div>
+</div>           
+</span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_6'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_6' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_6'>0%</div>
+                    <div class='Cell' id='temp_6'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo5"></div></div><div>
+  <div id="demo5" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_6">Wind</div>
+                    <div class='data24' id="viewh_6">Humidity</div>
+                    <div class='data24' id="viewv_6">Visibility</div>
+                    <div class='data24' id="viewp_6">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_7'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_7' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_7'>0%</div>
+                    <div class='Cell' id='temp_7'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo6"></div></div><div>
+  <div id="demo6" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_7">Wind</div>
+                    <div class='data24' id="viewh_7">Humidity</div>
+                    <div class='data24' id="viewv_7">Visibility</div>
+                    <div class='data24' id="viewp_7">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_8'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_8' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_8'>0%</div>
+                    <div class='Cell' id='temp_8'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo7"></div></div><div>
+  <div id="demo7" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24'  id="vieww_8">Wind</div>
+                    <div class='data24'  id="viewh_8">Humidity</div>
+                    <div class='data24'  id="viewv_8">Visibility</div>
+                    <div class='data24'  id="viewp_8">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_9'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_9' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_9'>0%</div>
+                    <div class='Cell' id='temp_9'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo8"></div></div><div>
+  <div id="demo8" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_9">Wind</div>
+                    <div class='data24' id="viewh_9">Humidity</div>
+                    <div class='data24' id="viewv_9">Visibility</div>
+                    <div class='data24' id="viewp_9">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+<div>   <div class="FirstRow">
+                    <div class='Cell' id='time_10'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_10' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_10'>0%</div>
+                    <div class='Cell' id='temp_10'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo9"></div></div><div>
+  <div id="demo9" class="col-md-12 view collapse text-center" style="height: 35px; background:lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_10">Wind</div>
+                    <div class='data24' id="viewh_10">Humidity</div>
+                    <div class='data24' id="viewv_10">Visibility</div>
+                    <div class='data24' id="viewp_10">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_11'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_11' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_11'>0%</div>
+                    <div class='Cell' id='temp_11'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo10"></div></div><div>
+  <div id="demo10" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_11">Wind</div>
+                    <div class='data24' id="viewh_11">Humidity</div>
+                    <div class='data24' id="viewv_11">Visibility</div>
+                    <div class='data24'  id="viewp_11">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_12'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_12' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_12'>0%</div>
+                    <div class='Cell' id='temp_12'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo11"></div></div><div>
+  <div id="demo11" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_12">Wind</div>
+                    <div class='data24' id="viewh_12">Humidity</div>
+                    <div class='data24' id="viewv_12">Visibility</div>
+                    <div class='data24' id="viewp_12">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_13'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_13' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_13'>0%</div>
+                    <div class='Cell' id='temp_13'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo12"></div></div><div>
+  <div id="demo12" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_13">Wind</div>
+                    <div class='data24' id="viewh_13">Humidity</div>
+                    <div class='data24' id="viewv_13">Visibility</div>
+                    <div class='data24' id="viewp_13">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_14'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_14' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_14'>0%</div>
+                    <div class='Cell' id='temp_14'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo13"></div></div><div>
+  <div id="demo13" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_14">Wind</div>
+                    <div class='data24' id="viewh_14">Humidity</div>
+                    <div class='data24' id="viewv_14">Visibility</div>
+                    <div class='data24' id="viewp_14">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_15'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_15' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_15'>0%</div>
+                    <div class='Cell' id='temp_15'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo14"></div></div><div>
+  <div id="demo14" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24'  id="vieww_15">Wind</div>
+                    <div class='data24'  id="viewh_15">Humidity</div>
+                    <div class='data24'  id="viewv_15">Visibility</div>
+                    <div class='data24'  id="viewp_15">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_16'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_16' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_16'>0%</div>
+                    <div class='Cell' id='temp_16'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo15"></div></div><div>
+  <div id="demo15" class="col-md-12 view collapse text-center" style="height: 35px; background:lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_16">Wind</div>
+                    <div class='data24' id="viewh_16">Humidity</div>
+                    <div class='data24' id="viewv_16">Visibility</div>
+                    <div class='data24' id="viewp_16">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_17'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_17' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_17'>0%</div>
+                    <div class='Cell' id='temp_17'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo16"></div></div><div>
+  <div id="demo16" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24'id="vieww_17">Wind</div>
+                    <div class='data24' id="viewh_17">Humidity</div>
+                    <div class='data24' id="viewv_17">Visibility</div>
+                    <div class='data24' id="viewp_17">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_18'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_18' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_18'>0%</div>
+                    <div class='Cell' id='temp_18'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo17"></div></div><div>
+  <div id="demo17" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_18">Wind</div>
+                    <div class='data24' id="viewh_18">Humidity</div>
+                    <div class='data24' id="viewv_18">Visibility</div>
+                    <div class='data24' id="viewp_18">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_19'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_19' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_19'>0%</div>
+                    <div class='Cell' id='temp_19'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo18"></div></div><div>
+  <div id="demo18" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_19">Wind</div>
+                    <div class='data24' id="viewh_19">Humidity</div>
+                    <div class='data24' id="viewv_19">Visibility</div>
+                    <div class='data24' id="viewp_19">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_20'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_20' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_20'>0%</div>
+                    <div class='Cell' id='temp_20'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo19"></div></div><div>
+  <div id="demo19" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_20">Wind</div>
+                    <div class='data24' id="viewh_20">Humidity</div>
+                    <div class='data24' id="viewv_20">Visibility</div>
+                    <div class='data24' id="viewp_20">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_21'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_21' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_21'>0%</div>
+                    <div class='Cell' id='temp_21'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo20"></div></div><div>
+  <div id="demo20" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                         <div class='data24' id="vieww_21">Wind</div>
+                    <div class='data24' id="viewh_21">Humidity</div>
+                    <div class='data24' id="viewv_21">Visibility</div>
+                    <div class='data24' id="viewp_21">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_22'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_22' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_22'>0%</div>
+                    <div class='Cell' id='temp_22'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo21"></div></div><div>
+  <div id="demo21" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_22">Wind</div>
+                    <div class='data24' id="viewh_22">Humidity</div>
+                    <div class='data24' id="viewv_22">Visibility</div>
+                    <div class='data24' id="viewp_22">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_23'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_23' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_23'>0%</div>
+                    <div class='Cell' id='temp_23'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo22"></div></div><div>
+  <div id="demo22" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_23">Wind</div>
+                    <div class='data24' id="viewh_23">Humidity</div>
+                    <div class='data24' id="viewv_23">Visibility</div>
+                    <div class='data24' id="viewp_23">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+  <div>   <div class="FirstRow">
+                    <div class='Cell' id='time_24'>10:00PM</div>
+                    <div class='Cell' ><img id='summary_24' src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:40px; height:40px;"></div>
+                    <div class='Cell' id='cloud_24'>0%</div>
+                    <div class='Cell' id='temp_24'>72.38<span id='temp'></span></div>
+                    
+                    <div class='Cell'><span class='glyphicon glyphicon-plus' data-toggle="collapse" data-target="#demo23"></div></div><div>
+  <div id="demo23" class="col-md-12 view collapse text-center" style="height: 35px; background: lightgray;margin-bottom: 25px;border-bottom: 15px grey;">
+     <div style='height: 20px;'></div>
+    <div style="width: 90%; margin:0 auto; background: white;">
+                                 <div class='header24'>Wind</div>
+                                 <div class='header24'>Humidity</div>
+                                 <div class='header24'>Visibility</div>
+                                 <div class='header24'>Pressure</div>
+                            </div>
+<div style="width: 90%; margin:0 auto; background: white;margin-bottom: 30px;">
+                    <div class='data24' id="vieww_24">Wind</div>
+                    <div class='data24' id="viewh_24">Humidity</div>
+                    <div class='data24' id="viewv_24">Visibility</div>
+                    <div class='data24' id="viewp_24">Pressure</div>
+                    </div>
+                         <div style='height: 20px;'><br></div>
+</div></span></div></div>
+</div></div>
+
+
+            
+            <div class="tab-pane" id="next7days">
+                  <div class="colored col-md-12">
+<div id='dayContainer' style="margin: 0px auto;">   
+
+ <div class="btn btn-primary btn-lg dayButton" data-toggle="modal" data-target="#myModal" id="but1" style="height:300px; ;">
+                    <p id='day_1'>Friday</p>
+                    <p id='date_1'>Oct16</p>
+                    <p><img id="img_1" src="http://cs-server.usc.edu:45678/hw/hw8/images/cloud_day.png" style="width:60px; height:80px;"></p>
+                    <p>Min Temp</p>
+                    <p><h3  id="mint_1">67</h3></p>
+                    <p>Max Temp</p>
+                    <p ><h3 id="maxt_1">81</h3></p>
+                  
+</div>
+<div class="btn btn-primary btn-lg-danger dayButton" data-toggle="modal" data-target="#myModal1" id="but2" style="height:300px; ; background-color:#FF0000;">
+                    <p id='day_2'>Saturday</p>
+                    <p id='date_2'>Oct17</p>
+                    <p ><img id="img_2" src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:60px; height:80px;"></p>
+                    <p>Min Temp</p>
+                    <p ><h3 id="mint_2">77</h3></p>
+                    <p>Max Temp</p>
+                    <p ><h3 id="maxt_2">87</h3></p>
+                  
+</div>
+<div class="btn btn-primary btn-lg-danger dayButton" data-toggle="modal" data-target="#myModal2" id="but2" style="height:300px; ; background-color:rgb(225,134,40);">
+                    <p id='day_3'>Sunday</p>
+                    <p id='date_3'>Oct17</p>
+                    <p ><img id="img_3" src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:60px; height:80px;"></p>
+                    <p>Min Temp</p>
+                    <p ><h3 id="mint_3">77</h3></p>
+                    <p>Max Temp</p>
+                    <p ><h3 id="maxt_3">87</h3></p>
+                  
+</div>
+<div class="btn btn-primary btn-lg-danger dayButton" data-toggle="modal" data-target="#myModal3" id="but2" style=" height:300px; ;background-color:rgb(102,153,0);">
+                    <p id='day_4'>Monday</p>
+                    <p id='date_4'>Oct17</p>
+                    <p ><img id="img_4"  src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:60px; height:80px;"></p>
+                    <p>Min Temp</p>
+                    <p ><h3 id="mint_4">77</h3></p>
+                    <p>Max Temp</p>
+                    <p ><h3 id="maxt_4">>87</h3></p>
+                  
+</div>
+<div class="btn btn-primary btn-lg-danger dayButton" data-toggle="modal" data-target="#myModal4" id="but2" style="height:300px; ;background-color:rgb(125,86,153);">
+                    <p id='day_5'>Tuesday</p>
+                    <p id='date_5'>Oct17</p>
+                    <p id="img_5"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:60px; height:80px;"></p>
+                    <p>Min Temp</p>
+                    <p ><h3 id="mint_5">77</h3></p>
+                    <p>Max Temp</p>
+                    <p ><h3 id="maxt_5">87</h3></p>
+                  
+</div>
+<div class="btn btn-primary btn-lg-danger dayButton" data-toggle="modal" data-target="#myModal5" id="but2" style="height:300px; ;background-color:rgb(255,102,102);">
+                    <p id='day_6'>Wednesday</p>
+                    <p id='date_6'>Oct17</p>
+                    <p ><img id='img_6' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:60px; height:80px;"></p>
+                    <p>Min Temp</p>
+                    <p ><h3 id='mint_6'>77</h3></p>
+                    <p>Max Temp</p>
+                    <p ><h3 id='maxt_6'>87</h3></p>
+                  
+</div>
+<div class="btn btn-primary btn-lg-danger dayButton" data-toggle="modal" data-target="#myModal6" id="but2" style="height:300px; ;background-color:rgb(213,0,102);">
+                    <p id='day_7'>Thursday</p>
+                    <p id='date_7'>Oct17</p>
+                    <p ><img id='img_7' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="width:60px; height:80px;"></p>
+                    <p>Min Temp</p>
+                    <p ><h3 id='mint_7'>77</h3></p>
+                    <p>Max Temp</p>
+                    <p ><h3 id='maxt_7'>87</h3></p>
+                  
+</div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+            <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Weather in <span id='city_modal_1'></span> on <span id='newdate_1'></span></h4>
+        </div><div>
+        <div class="modal-body text-center">
+          <p><img id='icon_1' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="background-position:center;width:150px;height:150px;"></p>
+          <p><h3 id="sum_1">Friday:<span style="color:orange;">Mostly cloudy throughout the day.</h3></p>
+          <div class="modal-body col-md-4">
+            <p><b>Sunrise Time</b></p>
+            <p id="sunr_1">6:00AM</p>
+            <p><b>Wind Speed</b></p>
+             <p id="wspd_1">67mph</p>
+        </div>
+        <div class="modal-body col-md-4">
+            <p><b>Sunset Time</b></p>
+             <p id="suns_1">6:00PM</p>
+            <p><b>Visibility</b></p>
+            <p id="vis_1">60%</p>
+        </div>
+        <div class="modal-body col-md-4">
+            <p><b>Humidity</b></p>
+            <p id="hum_1">7:00AM</p>
+            <p><b>Pressure</b></p>
+             <p id="press_1">56mph</p>
+        </div>
+      </div>
+      <div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+</div>
+</div>
+
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+    
+            <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Weather in <span id='city_modal_2'></span> on <span id='newdate_2'></span></h4>
+        </div><div>
+        <div class="modal-body text-center">
+          <p><img id='icon_2' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="background-position:center;width:150px;height:150px;"></p>
+          <p><h3 id="sum_2">Friday:Mostly cloudy throughout the day.</h3></p>
+          <div class="modal-body col-md-4">
+            <p><b>Sunrise Time</b></p>
+            <p id="sunr_2">6:00AM</p>
+            <p><b>Wind Speed</b></p>
+             <p id="wspd_2">67mph</p>
+        </div>
+        <div class="modal-body col-md-4">
+            <p><b>Sunset Time</b></p>
+             <p id="suns_2">6:00PM</p>
+            <p><b>Visibility</b></p>
+            <p id="vis_2">60%</p>
+        </div>
+        <div class="modal-body col-md-4">
+            <p><b>Humidity</b></p>
+            <p id="hum_2">7:00AM</p>
+            <p><b>Pressure</b></p>
+             <p id="press_2">56mph</p>
+        </div>
+      </div>
+      <div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+</div>
+</div>
+<div class="modal fade" id="myModal2" role="dialog">
+   <div class="modal-dialog">
+    
+            <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Weather in <span id='city_modal_3'></span> on <span id='newdate_3'></span></h4>
+        </div><div>
+        <div class="modal-body text-center">
+          <p><img id='icon_3' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="background-position:center;width:150px;height:150px;"></p>
+          <p><h3 id="sum_3">Friday:Mostly cloudy throughout the day.</h3></p>
+          <div class="modal-body col-md-4">
+            <p><b>Sunrise Time</b></p>
+            <p id="sunr_3">6:00AM</p>
+            <p><b>Wind Speed</b></p>
+             <p id="wspd_3">67mph</p>
+        </div>
+        <div class="modal-body col-md-4">
+             <p><b>Sunset Time</b></p>
+             <p id="suns_3">6:00PM</p>
+           <p><b>Visibility</b></p>
+            <p id="vis_3">60%</p>
+        </div>
+        <div class="modal-body col-md-4">
+           <p><b>Humidity</b></p>
+            <p id="hum_3">7:00AM</p>
+             <p><b>Pressure</b></p>
+             <p id="press_3">56mph</p>
+        </div>
+      </div>
+      <div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+</div>
+</div> 
+<div class="modal fade" id="myModal3" role="dialog">
+     <div class="modal-dialog">
+    
+            <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Weather in <span id='city_modal_4'></span> on <span id='newdate_4'></span></h4>
+        </div><div>
+        <div class="modal-body text-center">
+          <p><img id='icon_4' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="background-position:center;width:150px;height:150px;"></p>
+          <p><h3 id="sum_4">Friday:Mostly cloudy throughout the day.</h3></p>
+          <div class="modal-body col-md-4">
+            <p><b>Sunrise Time</b></p>
+            <p id="sunr_4">6:00AM</p>
+            <p><b>Wind Speed</b></p>
+             <p id="wspd_4">67mph</p>
+        </div>
+        <div class="modal-body col-md-4">
+             <p><b>Sunset Time</b></p>
+             <p id="suns_4">6:00PM</p>
+            <p><b>Visibility</b></p>
+            <p id="vis_4">60%</p>
+        </div>
+        <div class="modal-body col-md-4">
+            <p><b>Humidity</b></p>
+            <p id="hum_4">7:00AM</p>
+            <p><b>Pressure</b></p>
+             <p id="press_4">56mph</p>
+        </div>
+      </div>
+      <div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+</div>
+</div>
+<div class="modal fade" id="myModal4" role="dialog">
+     <div class="modal-dialog">
+    
+            <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Weather in <span id='city_modal_5'></span> on <span id='newdate_5'></span></h4>
+        </div><div>
+        <div class="modal-body text-center">
+          <p><img id='icon_5' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="background-position:center;width:150px;height:150px;"></p>
+          <p><h3 id="sum_5">Friday:Mostly cloudy throughout the day.</h3></p>
+          <div class="modal-body col-md-4">
+            <p><b>Sunrise Time</b></p>
+            <p id="sunr_5">6:00AM</p>
+            <p><b>Wind Speed</b></p>
+             <p id="wspd_5">67mph</p>
+        </div>
+        <div class="modal-body col-md-4">
+           <p><b>Sunset Time</b></p>
+             <p id="suns_5">6:00PM</p>
+            <p><b>Visibility</b></p>
+            <p id="vis_5">60%</p>
+        </div>
+        <div class="modal-body col-md-4">
+           <p><b>Humidity</b></p>
+            <p id="hum_5">7:00AM</p>
+            <p><b>Pressure</b></p>
+             <p id="press_5">56mph</p>
+        </div>
+      </div>
+      <div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+</div>
+</div>
+   <div class="modal fade" id="myModal5" role="dialog">
+     <div class="modal-dialog">
+    
+            <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Weather in <span id='city_modal_6'></span> on <span id='newdate_6'></span></h4>
+        </div><div>
+        <div class="modal-body text-center">
+          <p><img id='icon_6' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="background-position:center;width:150px;height:150px;"></p>
+          <p><h3 id="sum_6">Friday:Mostly cloudy throughout the day.</h3></p>
+          <div class="modal-body col-md-4">
+            <p><b>Sunrise Time</b></p>
+            <p id="sunr_6">6:00AM</p>
+            <p><b>Wind Speed</b></p>
+             <p id="wspd_6">67mph</p>
+        </div>
+        <div class="modal-body col-md-4">
+           <p><b>Sunset Time</b></p>
+             <p id="suns_6">6:00PM</p>
+           <p><b>Visibility</b></p>
+            <p id="vis_6">60%</p>
+        </div>
+        <div class="modal-body col-md-4">
+           <p><b>Humidity</b></p>
+            <p id="hum_6">7:00AM</p>
+            <p><b>Pressure</b></p>
+             <p id="press_6">56mph</p>
+        </div>
+      </div>
+      <div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+</div>
+</div>
+<div class="modal fade" id="myModal6" role="dialog">
+        <div class="modal-dialog">
+    
+            <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Weather in <span id='city_modal_7'></span> on <span id='newdate_7'></span></h4>
+        </div><div>
+        <div class="modal-body text-center">
+          <p><img id='icon_7' src="http://cs-server.usc.edu:45678/hw/hw8/images/clear.png" style="background-position:center;width:150px;height:150px;"></p>
+          <p><h3 id="sum_7">Friday:Mostly cloudy throughout the day.</h3></p>
+          <div class="modal-body col-md-4">
+            <p><b>Sunrise Time</b></p>
+            <p id="sunr_7">6:00AM</p>
+           <p><b>Wind Speed</b></p>
+             <p id="wspd_7">67mph</p>
+        </div>
+        <div class="modal-body col-md-4">
+          <p><b>Sunset Time</b></p>
+             <p id="suns_7">6:00PM</p>
+           <p><b>Visibility</b></p>
+            <p id="vis_7">60%</p>
+        </div>
+        <div class="modal-body col-md-4">
+            <p><b>Humidity</b></p>
+            <p id="hum_7">7:00AM</p>
+             <p><b>Pressure</b></p>
+             <p id="press_7">56mph</p>
+        </div>
+      </div>
+      <div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+</div>
+</div>
+
+
+    </div>  
+    </div>
+</div>
+
+</div>
+    
+    
+        <script type="text/javascript">
+
+        function test(){
+            FB.ui(
+                {
+                    method: 'feed',
+                        name: 'Current Temperature in ' + FBcity + ',' + FBstate,
+                        picture: FBicon,
+                        caption: 'Weather Information in Forecast.io',
+                        description: FBsummary + ', ' + FBtemp,
+                        link : 'http://forecast.io',
+                        message: ''
+                },
+                // callback
+                  function(response) {
+                    if (response && !response.error_message) {
+                        alert('Posted successfully!!');
+                    } else {
+                        alert('Not Posted!!');
+                    }
+                  }
+                );
+        }
+        </script>
+        
+        <div id="fb-root"></div>
+        <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: '1479741252334564', 
+                status: true, 
+                cookie: true,
+                xfbml: true
+            });
+        };
+        (function() {
+            var e = document.createElement('script'); 
+            e.async = true;
+            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+        }());
+        </script>
+   
+    
+    
+</body>
+
+</html>
+
